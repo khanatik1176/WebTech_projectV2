@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #36a420;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.editp, .deletep {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    align-items: center;
+}
+
+.editp {
+    background-color: #36a420;
+    color: #fff;
+}
+
+.deletep {
+    background-color: #ff3333;
+    color: #fff;
+}

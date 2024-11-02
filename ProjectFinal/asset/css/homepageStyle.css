@@ -1,0 +1,38 @@
+/* Head section */
+*{
+    background-color: #fceed1;
+}
+.navbar1 a{
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: darkseagreen;
+    color: black;
+    padding: 8px;
+    margin: 5px;
+    transition: transform 0.3s ease-in-out;
+    
+}
+.navbar1 a:hover{
+    background-color: lightblue;
+    transform: scale(1.05);
+}
+
+table{
+    border: none;
+}
+#mainlink a{
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: lightcoral;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+#mainlink a:hover{
+    background-color: greenyellow;
+    color: #333;
+    font-size: 15px;
+}

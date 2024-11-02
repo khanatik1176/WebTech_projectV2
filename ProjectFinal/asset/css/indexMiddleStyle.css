@@ -1,0 +1,45 @@
+
+/* middle part */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fceed1;
+    font-family: 'Arial', sans-serif;
+}
+.container {
+    background-color: #fceed1;
+    padding: 20px;
+    text-align: center;
+}
+
+p {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+p:hover {
+    transform: scale(1.05);
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+#title {
+    color: #333;
+}
+
+#p1, #p6, #p7 {
+    background-color: #fceed1;
+}
+
+#p7 {
+    font-style: italic;
+}

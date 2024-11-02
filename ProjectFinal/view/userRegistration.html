@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../asset/js/memberReg.js"></script>
+    <link rel="stylesheet" href="../asset/css/registrationstyle.css">
+    <title>Registration</title>
+</head>
+
+<body>
+    <form onsubmit="return IsvalidForm()" method="post" action="../controller/userRegistrationChecker.php " id = "Form1"
+        style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+        <table border="1" cellspacing="0" cellpadding="5" width="100%">
+            <tr>
+                <td><img src="../asset/clogo.png" alt="" height="30px"><b>All in One Parcel Service</td>
+                <td align="right"><a href="index.php">Back to Home!?</a></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <fieldset>
+                        <form  onsubmit="return IsvalidForm()" method="post" action="../controller/userRegistrationChecker.php" id="Form2">
+                            <legend>User Registration Panel</legend>
+                            <table border="1" cellpadding="10" cellspacing="0">
+                                <tr>
+                                    <td>Name: </td>
+                                    <td><input type="text" name="uname" id="uname" onkeyup="isValidName()"></br><small id = "NameError" style ="color: red"></small></td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td>E-mail: </td>
+                                    <td><input type="email" name="uemail" id="uemail" onkeyup="isValidEmail()"></br><small id = "EmailError" style="color: red;"></small></td>
+                                </tr>
+
+                                <tr>
+
+                                    <td>Gender: </td>
+                                    <td>
+                                        <Select name="ugender" id="ugen">
+                                            <option value="" disabled selected >--Select One--</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </Select>
+                                    </br><small id = "DropdownError" style="color: red;"></small></td>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Date Of Birth: </td>
+                                    <td><input type="date" name="udob" id="udob" ></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Phone Number: </td>
+                                    <td><input type="number" name="uphone" id="uphone"  onkeyup="isValidPhoneNumber()"></br><small id = "ErrorPhone" style="color:red"></small></td>
+                                </tr>
+                                <tr>
+                                    <td>NID Number: </td>
+                                    <td><input type="number" name="unid" id="unid"  onkeyup="isValidNIDNumber()"></br><small id="ErrorNID" style="color: red;"></small></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Address: </td>
+                                    <td><input type ="text" name="uaddress" id="uaddress" onkeyup = "isValidAddress()"></br><small id ="ErrorAddress" style="color: red;"></small></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Password: </td>
+                                    <td>
+                                        <input type="password" name="upassword" id="upassword"  onkeyup="isValidPassword()"></br><small id = "PassError" style="color:red"></small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Re-password: </td>
+                                    <td>
+                                        <input type="password" name="rePassword" id="urepassword"  onkeyup="isValidRePassword()"></br><small id ="RePassError" style="color: red;"></small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <input type="submit" name="submit" id="" value="REGISTER ME">
+                                        
+                                        <input type="reset" name="reset" id="" value="Reset">
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2">
+                                        <a href="userLogin.php">Already Have An Account?</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right">
+                    <p>
+                        Having trouble!? <br>
+                    <p style="color: red;">Hotline: 0987654321</p>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>

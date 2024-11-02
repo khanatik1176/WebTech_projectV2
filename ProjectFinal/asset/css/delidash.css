@@ -1,0 +1,88 @@
+/* Reset some default styles */
+body, h2, p, a {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Style for the entire page */
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f2f2f2;
+}
+
+/* Style for the form container */
+form {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the header */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Style for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Style for table headers */
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Style for links in the table */
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Style for the logout link */
+a[href="../controller/logoutChecker.php"] {
+    color: #e74c3c;
+}
+
+/* Style for the footer */
+td[colspan="2"] {
+    text-align: right;
+    padding-top: 20px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+    form {
+        padding: 10px;
+    }
+
+    table {
+        margin-top: 10px;
+    }
+
+    td[colspan="2"] {
+        text-align: center;
+    }
+}

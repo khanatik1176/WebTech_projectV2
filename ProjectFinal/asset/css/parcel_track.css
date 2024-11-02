@@ -1,0 +1,66 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Table Styles */
+.track-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.track-row {
+    background-color: #f2f2f2;
+}
+
+.track-header,
+.track-data {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Styles for the header cells */
+.track-header {
+    font-weight: bold;
+    background-color: #ddd;
+}
+
+/* Form Styles */
+.TrackForm {
+    display: inline-block;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.Track-Header {
+    color: #333;
+}
+
+#track {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.result-divt {
+    margin-top: 10px;
+}
+
+/* Hide result div initially */
+.hide {
+    display: none;
+}
+
+/* Centering the table */
+table {
+    margin: auto;
+}
+
+/* Centering the header cell in the table */
+table tr td[colspan="2"] {
+    text-align

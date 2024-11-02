@@ -1,0 +1,46 @@
+/* Style for the outer div */
+.complain-d {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Style for the form */
+.reviewform {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Style for the complain header */
+.complain-header {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* Style for the input fields and textarea */
+.revname,
+.reviewarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Style for the submit button */
+.review-btn {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover effect for the submit button */
+.review-btn:hover {
+    background-color: #45a049;
+}

@@ -1,0 +1,744 @@
+<?php
+require_once('dbModel.php');
+session_start();
+
+function login($useremail, $userpassword)
+{
+    $con = getConnection();
+    $sql = "select * from adminmanagement where Useremail ='{$useremail}' and Userpassword='{$userpassword}'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_array($result);
+    if (isset($_POST['logsubmit'])) {
+
+        if (!is_null($row) && $row["UserRole"] == "Admin") {
+
+            $_SESSION['Username'] = $row['UserName'];
+            $_SESSION['UserEmail'] = $row['UserEmail'];
+            $_SESSION['UserPass'] = $row['UserPassword'];
+            $_SESSION['Role'] = 'Admin';
+
+            if (!empty($_POST["check"])) {
+
+                setcookie("UserEmail", $useremail, time() + 30, "/");
+                setcookie("UserPass", $userpassword, time() + 30, "/");
+                header("location: ../view/admindashboard.php");
+
+            } else {
+
+                header("location: ../view/admindashboard.php");
+
+            }
+
+        } elseif (!is_null($row) && $row["UserRole"] == "Member") {
+            $_SESSION['Username'] = $row['UserName'];
+            $_SESSION['UserEmail'] = $row['UserEmail'];
+            $_SESSION['UserPass'] = $row['UserPassword'];
+            $_SESSION['Role'] = 'Member';
+            if (!empty($_POST["check"])) {
+                setcookie("UserEmail", $useremail, time() + 30, "/");
+                setcookie("UserPass", $userpassword, time() +30, "/");
+                header("location: ../view/MemberIndex.php");
+            } else {
+
+                header("location: ../view/MemberIndex.php");
+
+            }
+        } elseif (!is_null($row) && $row["UserRole"] == "DeliveryMan") {
+            $_SESSION['Username'] = $row['UserName'];
+            $_SESSION['UserEmail'] = $row['UserEmail'];
+            $_SESSION['UserPass'] = $row['UserPassword'];
+            $_SESSION['Role'] = 'Deliveryman';
+            if (!empty($_POST["check"])) {
+
+                setcookie("UserEmail", $useremail, time() + 30, "/");
+                setcookie("UserPass", $userpassword, time() + 30, "/");
+                header("location: ../view/deliverymandashboard.php");
+
+            } else {
+
+                header("location: ../view/deliverymandashboard.php");
+            }
+
+
+        } else {
+            echo "Invalid";
+        }
+    }
+}
+
+// section for forget password
+function forgetPassword($email, $newpassword)
+{
+    $con = getConnection();
+    $sql = "select * from adminmanagement where UserEmail ='{$email}'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_array($result);
+    $counter = 0;
+
+    if (isset($_POST['Forgetsubmit'])) {
+        ///// Updated 11/11/23
+
+        if ($row["UserRole"] == "Admin") {
+            $sql_mem = "update usermanagement set UserPassword = '{$newpassword}' where UserEmail = '{$email}'";
+            $result_mem = mysqli_query($con, $sql_mem);
+
+            if ($result_mem == true) {
+                $counter = 1;
+                if ($counter == 1) {
+                    $sql_ad = "update adminmanagement set UserPassword = '{$newpassword}' where UserEmail = '{$email}'";
+                    $result_ad = mysqli_query($con, $sql_ad);
+                    header("location: ../view/userlogin.php");
+                }
+            }
+        } elseif ($row["UserRole"] == "Member") {
+            $sql_mem = "update usermanagement set UserPassword = '{$newpassword}' where UserEmail = '{$email}'";
+            $result_mem = mysqli_query($con, $sql_mem);
+
+            if ($result_mem == true) {
+                $counter = 1;
+                if ($counter == 1) {
+                    $sql_ad = "update adminmanagement set UserPassword = '{$newpassword}' where UserEmail = '{$email}'";
+                    $result_ad = mysqli_query($con, $sql_ad);
+                    header("location: ../view/userlogin.php");
+                }
+            }
+        } elseif ($row["UserRole"] == "DeliveryMan") {
+            $sql_deli = "update DeliveryManmanagement set DeliverymanPassword = '{$newpassword}' where DeliverymanEmail = '{$email}'";
+            $result_deli = mysqli_query($con, $sql_deli);
+
+            if ($result_deli == true) {
+                $counter = 2;
+
+                if ($counter == 2) {
+                    $sql_ad = "update adminmanagement set UserPassword = '{$newpassword}' where UserEmail = '{$email}'";
+                    $result_ad = mysqli_query($con, $sql_ad);
+                    header("location: ../view/userlogin.php");
+                }
+            } else {
+
+                echo "Invalid";
+            }
+        }
+    } else {
+        echo "Invalid";
+    }
+}
+
+//Starting Query For ADMIN
+
+/* get addmin information */
+function getAdmin()
+{
+    $con = getConnection();
+    $sql = "select * from adminmanagement where UserRole = 'Admin'";
+    $result = mysqli_query($con, $sql);
+    $admin = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($admin, $row);
+
+    }
+    return $admin;
+}
+//update admin information
+function updateadmin($email)
+{
+    $con = getConnection();
+    $sql = " update adminmanagement set UserEmail = '{$email}' where UserRole = 'Admin';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result) {
+        header("location: ../view/viewadmin.php");
+
+    }
+}
+
+//get all user member information
+function getAllUsers() // Members
+{
+    $con = getConnection();
+    $sql = "select * from usermanagement where Role='Member'";
+    $result = mysqli_query($con, $sql);
+    $username = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($username, $row);
+
+    }
+    return $username;
+}
+
+//get all deliveryman information
+function getAlldeliveryMans() // Members
+{
+    $con = getConnection();
+    $sql = "select * from deliverymanmanagement";
+    $result = mysqli_query($con, $sql);
+    $username = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($username, $row);
+
+    }
+    return $username;
+
+}
+
+//get all parcel history
+function getAllparcelhistory()
+{
+    $username = $_SESSION['Username'];
+    $con = getConnection();
+    $sql = "select * from percelmanagement";
+    $result = mysqli_query($con, $sql);
+    $usersname = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($usersname, $row);
+
+    }
+    return $usersname;
+
+}
+
+//get number of parcel
+function numberofParcel()
+{
+    $username = $_SESSION['Username'];
+    $con = getConnection();
+    $sql = "select COUNT(percelID) AS numberofParcel from percelmanagement;";
+    $result = mysqli_query($con, $sql);
+    $usersname = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($usersname, $row);
+
+    }
+    return $usersname;
+
+}
+
+//get number of member
+function numberofMember()
+{
+    $username = $_SESSION['Username'];
+    $con = getConnection();
+    $sql = "select COUNT(UserID) AS numberofmember from usermanagement;";
+    $result = mysqli_query($con, $sql);
+    $usersname = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($usersname, $row);
+
+    }
+    return $usersname;
+
+}
+
+//get number of delivery man
+function numberofDliveryman()
+{
+    $username = $_SESSION['Username'];
+    $con = getConnection();
+    $sql = "select COUNT(DeliverymanID) AS numberofman from deliverymanmanagement;";
+    $result = mysqli_query($con, $sql);
+    $usersname = [];
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($usersname, $row);
+    }
+    return $usersname;
+}
+
+// adding career information
+function addCareer($jobtitle, $jobDes, $postdate, $endDate)
+{
+    $con = getConnection(); // unique id generation 
+    $query_id = "Select * from careerpanel order by careerID desc limit 1";
+    $result_id = mysqli_query($con, $query_id);
+    $row_id = mysqli_fetch_assoc($result_id);
+    $old_id = $row_id["careerID"];
+    if ($old_id == "") {
+        $new_unique_id = "JOB";
+    } else {
+        $new_unique_id = substr($old_id, 3);
+        $new_unique_id = intval($new_unique_id);
+        $new_unique_id = "JOB" . ($new_unique_id + 1);
+    }
+
+    // Query for creating Member 
+    $sql = " insert into careerpanel values ( '{$new_unique_id}','{$jobtitle}','{$jobDes}','{$postdate}','{$endDate}')";
+    $result = mysqli_query($con, $sql);
+
+    if ($result == true) {
+        echo "Job Added SuccessFully";
+        header("location: ../view/admindashboard.php");
+    } else {
+        echo "User can not created";
+    }
+}
+
+//get all career 
+function getAllCarrer()
+{
+    $con = getConnection();
+    $sql = "select * from careerpanel;";
+    $result = mysqli_query($con, $sql);
+    $career = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        array_push($career, $row);
+
+    }
+    return $career;
+}
+
+// adding notification 
+function addNotification($notificationFor, $notDes)
+{
+    $con = getConnection(); // unique id generation 
+    $query_id = "Select * from notificationpanel order by notificationID desc limit 1";
+    $result_id = mysqli_query($con, $query_id);
+    $row_id = mysqli_fetch_assoc($result_id);
+    $old_id = $row_id["notificationID"];
+    if ($old_id == "") {
+        $new_unique_id = "NOT1";
+    } else {
+        $new_unique_id = substr($old_id, 3);
+        $new_unique_id = intval($new_unique_id);
+        $new_unique_id = "NOT" . ($new_unique_id + 1);
+    }
+
+    // Query for creating Notification
+    $sql = " insert into notificationpanel values ( '{$new_unique_id}','{$notificationFor}','{$notDes}',NOW())";
+    $result = mysqli_query($con, $sql);
+    if ($result == true) {
+        echo "Adding Notification Successfully";
+        header("./addNotification.php");
+    } else {
+        echo "could Not Created";
+    }
+}
+
+//get all notification
+function getAllNotification()
+{
+    $con = getConnection();
+    $sql = "select * from notificationpanel;";
+    $result = mysqli_query($con, $sql);
+    $notification = [];
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($notification, $row);
+    }
+    return $notification;
+}
+
+
+
+//admin table details
+function getAdminTableDetails($name)
+{
+    $con = getConnection();
+    $sql = "select * from adminmanagement where UserName = '{$name}'";
+    $result = mysqli_query($con, $sql);
+    $admins = [];
+    while ($row = mysqli_fetch_array($result)) {
+        $_SESSION['AdminID'] = $row['UserID'];
+        $_SESSION['AdminName'] = $row['UserName'];
+        $_SESSION['AdminEmail'] = $row['UserEmail'];
+        $_SESSION['AdminPassword'] = $row['UserPassword'];
+        $_SESSION['AdminRole'] = $row['UserRole'];
+        array_push($admins, $row);
+    }
+    return $admins;
+
+}
+
+//Ending Query For ADMIN
+
+
+
+
+//Starting Query For Member
+
+//creating user 
+function createUser_M($username, $email, $gender, $dob, $phoneNumber, $NIDNumber, $Address, $password)
+{
+
+    $con = getConnection(); // unique id generation 
+    $query_id = "Select * from usermanagement order by UserID desc limit 1";
+    $result_id = mysqli_query($con, $query_id);
+    $row_id = mysqli_fetch_assoc($result_id);
+    $old_id = $row_id["UserID"];
+    if ($old_id == "") {
+        $new_unique_id = "MEM1";
+    } else {
+        $new_unique_id = substr($old_id, 3);
+        $new_unique_id = intval($new_unique_id);
+        $new_unique_id = "MEM" . ($new_unique_id + 1);
+    }
+    // *******updated work right now 11/11/23 unique id generation 
+    $adquery_id = "Select * from adminmanagement order by UserID desc limit 1";
+    $adresult_id = mysqli_query($con, $adquery_id);
+    $adrow_id = mysqli_fetch_assoc($adresult_id);
+    $adold_id = $adrow_id["UserID"];
+    if ($adold_id == "") {
+        $adnew_unique_id = "ADM1";
+    } else {
+        $adnew_unique_id = substr($adold_id, 3);
+        $adnew_unique_id = intval($adnew_unique_id);
+        $adnew_unique_id = "ADM" . ($adnew_unique_id + 1);
+    }
+
+    // Query for creating Member 
+    $sql = " insert into usermanagement values ( '{$new_unique_id}','{$username}','{$email}','{$gender}','{$dob}','{$phoneNumber}','{$NIDNumber}','{$Address}','{$password}','Member')";
+    $result = mysqli_query($con, $sql);
+    $user_counter = 0;
+
+    if ($result == true) {
+
+        $user_counter = 1;
+
+        if ($user_counter == 1) {
+            $sql_admin = "insert into adminmanagement values ('{$adnew_unique_id}','{$username}','{$email}','$password', 'Member')";
+            $result_admin = mysqli_query($con, $sql_admin);
+            $_SESSION['AdminID'] = '$adnew_unique_id';
+            header("location: ../view/userLogin.php");
+        }
+
+
+    } else {
+        echo "User can not created";
+        $user_counter = 0;
+    }
+}
+
+//deleting member
+function deleteMember($username)
+{
+    $con = getConnection();
+    $sql = " Delete from deliverymanmanagement where DeliverymanName = '{$username}';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result == true) {
+        // updated 11/11/23
+
+        $con = getConnection();
+        $sqlad = " Delete from adminmanagement where UserName = '{$username}';";
+        $resultad = mysqli_query($con, $sqlad);
+
+        if ($resultad) {
+            session_destroy();
+            header("location: ../view/userLogin.php");
+        }
+
+    } else {
+        echo "User can not be deleted";
+    }
+    
+    
+    /* $con = getConnection();
+    $sql = " Delete from usermanagement where UserName = '{$username}';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result == true) {
+        $con = getConnection();
+        $sqlad = " Delete from adminmanagement where UserName = '{$username}';";
+        $resultad = mysqli_query($con, $sqlad);
+
+        if ($resultad) {
+            session_destroy();
+            header("location: ../view/userLogin.php");
+        }
+
+    } else {
+        echo "User can not be deleted";
+    } */
+}
+
+//update member
+function updateMember($Newname, $NewEmail, $NewGender, $NewDOB, $NewPhoneNo, $NewNIDNo, $NewAddress)
+{
+    $con = getConnection();
+    $sql = " update usermanagement set UserName = '{$Newname}', UserEmail = '{$NewEmail}', UserGender ='{$NewGender}', UserDateofBirth = '{$NewDOB}', UserPhoneNumber = '{$NewPhoneNo}', UserNIDNumber = '{$NewNIDNo}', UserAdress = '{$NewAddress}' where UserID = '{$_SESSION['memberID']}';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result) /// updated 11/11/23
+    {
+        
+        $con = getConnection();
+        $sql = " update adminmanagement set UserName = '{$Newname}', UserEmail = '{$NewEmail}'  where UserID = '{$_SESSION['AdminID']}';";
+        $adresult = mysqli_query($con, $sql);
+        if ($adresult) {
+            getAdminTableDetails($Newname);
+            getSpeceficMember($Newname);
+            $_SESSION['Username'] = $Newname;
+            header("location: ../view/viewprofile.php");
+        }
+    }
+    
+    
+    
+    /* $con = getConnection();
+    $sql = " update usermanagement set UserName = '{$Newname}', UserEmail = '{$NewEmail}', UserGender ='{$NewGender}', UserDateofBirth = '{$NewDOB}', UserPhoneNumber = '{$NewPhoneNo}', UserNIDNumber = '{$NewNIDNo}', UserAdress = '{$NewAddress}' where UserID = '{$_SESSION['UserID']}';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result)
+    {
+        $con = getConnection();
+        $sql = " update adminmanagement set UserName = '{$Newname}', UserEmail = '{$NewEmail}'  where UserID = '{$_SESSION['AdminID']}';";
+        $adresult = mysqli_query($con, $sql);
+        if ($adresult) {
+            getAdminTableDetails($Newname);
+            getSpeceficMember($Newname);
+            $_SESSION['Username'] = $Newname;
+            header("location: ../view/viewprofile.php");
+        }
+        else{
+            echo "Updated Failed";
+        }
+    }
+    else{
+        echo "Updated Failed";
+    }
+ */
+
+}
+
+//get receiver history
+function getReceiverHistory()
+{
+    $con = getConnection();
+    $sql = "SELECT senderName, percelTo, rname, rnumber FROM percelmanagement;
+    ;";
+    $result = mysqli_query($con, $sql);
+    $career = [];
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($career, $row);
+    }
+    return $career;
+}
+
+//get member notification
+function getMemberNotification()
+{
+    $con = getConnection();
+    $sql = "select * from notificationpanel where notificationFor='Member' ;";
+    $result = mysqli_query($con, $sql);
+    $notification = [];
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($notification, $row);
+    }
+    return $notification;
+}
+
+//get deliveryman notification
+function getDelNotification()
+{
+    $con = getConnection();
+    $sql = "select * from notificationpanel where notificationFor='DeliveryMan' ;";
+    $result = mysqli_query($con, $sql);
+    $notification = [];
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($notification, $row);
+    }
+    return $notification;
+}
+
+//Ending Query For Member
+
+
+//Query For Creating Deliveryman.. 
+
+// creating deliveryman
+function createUser_D($username, $email, $gender, $dob, $phoneNumber, $NIDNumber, $Vehicle, $Address, $password)
+{
+
+    $con = getConnection(); // unique id generation 
+    $query_id = "Select * from DeliveryManmanagement order by DeliverymanID desc limit 1";
+    $result_id = mysqli_query($con, $query_id);
+    $row_id = mysqli_fetch_assoc($result_id);
+    $old_id = $row_id["DeliverymanID"];
+    if ($old_id == "") {
+        $new_unique_id = "DEL1";
+    } else {
+        $new_unique_id = substr($old_id, 3);
+        $new_unique_id = intval($new_unique_id);
+        $new_unique_id = "DEL" . ($new_unique_id + 1);
+    }
+
+    // *******updated work right now 11/11/23 unique id generation 
+    $adquery_id = "Select * from adminmanagement order by UserID desc limit 1";
+    $adresult_id = mysqli_query($con, $adquery_id);
+    $adrow_id = mysqli_fetch_assoc($adresult_id);
+    $adold_id = $adrow_id["UserID"];
+    if ($adold_id == "") {
+        $adnew_unique_id = "ADM1";
+    } else {
+        $adnew_unique_id = substr($adold_id, 3);
+        $adnew_unique_id = intval($adnew_unique_id);
+        $adnew_unique_id = "ADM" . ($adnew_unique_id + 1);
+    }
+
+    // Query for creating Deliveryman
+    $sql = " insert into DeliveryManmanagement values ( '{$new_unique_id}','{$username}','{$email}','{$gender}','{$dob}','{$phoneNumber}','{$NIDNumber}','{$Vehicle}','{$Address}','{$password}','DeliveryMan')";
+    $result = mysqli_query($con, $sql);
+    $user_counter = 0;
+
+
+    if ($result == true) {
+
+        $user_counter = 1;
+
+        if ($user_counter == 1) {
+            $sql_admin = "insert into adminmanagement values ('{$adnew_unique_id}','{$username}','{$email}','$password', 'DeliveryMan')";
+            $result_admin = mysqli_query($con, $sql_admin);
+            $_SESSION['AdminID'] = '$adnew_unique_id';
+            header("location: ../view/userLogin.php");
+        }
+
+
+    } else {
+        echo "User can not created";
+        $user_counter = 0;
+    }
+
+}
+
+//for adding parcel
+function addpercel($username, $parcelName, $percelType, $percelFrom, $percelTo, $rname, $rnumber)
+{
+    $con = getConnection(); // unique id generation 
+    $query_id = "Select * from percelmanagement order by percelID desc limit 1";
+    $result_id = mysqli_query($con, $query_id);
+    $row_id = mysqli_fetch_assoc($result_id);
+    $old_id = $row_id["percelID"];
+    if ($old_id == "") {
+        $new_unique_id = "PCL1";
+    } else {
+        $new_unique_id = substr($old_id, 3);
+        $new_unique_id = intval($new_unique_id);
+        $new_unique_id = "PCL" . ($new_unique_id + 1);
+    }
+
+    // Query for creating Parcel
+    $sql = " insert into percelmanagement values ( '{$new_unique_id}','{$username}','{$parcelName}','{$percelType}','{$percelFrom}','{$percelTo}',NOW(),'{$rname}','{$rnumber}')";
+    $result = mysqli_query($con, $sql);
+
+    if ($result == true) {
+        header("location: ../view/percelmgt.php");
+    } else {
+        echo "User can not created";
+    }
+}
+
+//Getting Member Information 
+function getSpeceficMember($name)
+{
+    $con = getConnection();
+    $sql = "select * from usermanagement where UserName = '{$name}'";
+    $result = mysqli_query($con, $sql);
+    $usersname = [];
+    while ($row = mysqli_fetch_array($result)) {
+
+        $_SESSION['memberID'] = $row['UserID'];
+        $_SESSION['UserName'] = $row['UserName'];
+        $_SESSION['UserEmail'] = $row['UserEmail'];
+        $_SESSION['UserGender'] = $row['UserGender'];
+        $_SESSION['UserDateofBirth'] = $row['UserDateofBirth'];
+        $_SESSION['UserPhoneNumber'] = $row['UserPhoneNumber'];
+        $_SESSION['UserNIDNumber'] = $row['UserNIDNumber'];
+        $_SESSION['UserAdress'] = $row['UserAdress'];
+        array_push($usersname, $row);
+    }
+    return $usersname;
+}
+
+
+//Geting Delivery Man Info
+
+function getSpeceficDeliveryman($name)
+{
+    $con = getConnection();
+    $sql = "select * from deliverymanmanagement where DeliverymanName = '{$name}'";
+    $result = mysqli_query($con, $sql);
+    $deliverymans = [];
+    while ($row = mysqli_fetch_array($result)) {
+        $_SESSION['DeiverymanID'] = $row['DeliverymanID'];
+        $_SESSION['Dname'] = $row['DeliverymanName'];
+        $_SESSION['Demail'] = $row['DeliverymanEmail'];
+        $_SESSION['Dgender'] = $row['DeliverymanGender'];
+        $_SESSION['Ddob'] = $row['DeliverymanDOB'];
+        $_SESSION['DPhone'] = $row['DeliverymanPhoneNo'];
+        $_SESSION['DNID'] = $row['DeliverymanNIDNo'];
+        $_SESSION['DVehicle'] = $row['DeliverymanVehicle'];
+        $_SESSION['DAddress'] = $row['DeliverymanAddress'];
+        array_push($deliverymans, $row);
+    }
+    return $deliverymans;
+}
+
+// update delivery man information
+function updateDeliveryman($name, $email, $gender, $DOB, $PhoneNo, $NIDNo, $Vech, $address)
+{
+    $con = getConnection();
+    $sql = " update deliverymanmanagement set DeliverymanName = '{$name}', DeliverymanEmail = '{$email}', DeliverymanGender ='{$gender}', DeliverymanDOB = '{$DOB}', DeliverymanPhoneNo = '{$PhoneNo}', DeliverymanNIDNo = '{$NIDNo}', DeliverymanVehicle = '{$Vech}', DeliverymanAddress = '{$address}' where DeliverymanID = '{$_SESSION['DeiverymanID']}';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result) /// updated 11/11/23
+    {
+        $con = getConnection();
+        $sql = " update adminmanagement set UserName = '{$name}', UserEmail = '{$email}'  where UserID = '{$_SESSION['AdminID']}';";
+        $adresult = mysqli_query($con, $sql);
+        if ($adresult) {
+            getAdminTableDetails($name);
+            getSpeceficDeliveryman($name);
+            $_SESSION['Username'] = $name;
+            header("location: ../view/ViewDeliveryman.php");
+        }
+    }
+}
+
+//deleting delivreyman 
+function deleteDeliveryman($username)
+{
+    $con = getConnection();
+    $sql = " Delete from deliverymanmanagement where DeliverymanName = '{$username}';";
+    $result = mysqli_query($con, $sql);
+
+    if ($result == true) {
+        // updated 11/11/23
+
+        $con = getConnection();
+        $sqlad = " Delete from adminmanagement where UserName = '{$username}';";
+        $resultad = mysqli_query($con, $sqlad);
+
+        if ($resultad) {
+            session_destroy();
+            header("location: ../view/userLogin.php");
+        }
+
+    } else {
+        echo "User can not be deleted";
+    }
+}
+
+//Ending For Delivery Man
+
+
+//Getting Parcel History
+
+//get parcel history
+function getparcelhistory()
+{
+    $username = $_SESSION['Username'];
+    $con = getConnection();
+    $sql = "select * from percelmanagement where senderName = '$username'";
+    $result = mysqli_query($con, $sql);
+    $usersname = [];
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($usersname, $row);
+    }
+    return $usersname;
+}
+
+?>

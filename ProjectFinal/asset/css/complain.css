@@ -1,0 +1,70 @@
+
+.complain-d {
+    text-align: center;
+    vertical-align: baseline;
+}
+
+.ComplainForm {
+    display: inline-block;
+    padding: 20px;
+    background-color: none;
+    border:none;
+    border-radius: none;
+   
+}
+
+.Complain-Header {
+    color: #333;
+}
+
+#Complain-name {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.result-div {
+    margin-top: 10px;
+}
+
+/* CSS for the search results table */
+.Complain-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.Complain-row {
+    background-color: #f2f2f2;
+}
+
+.Complain-data, .Complain-header {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Styles for the header cells */
+.Complain-header {
+    font-weight: bold;
+    background-color: #ddd;
+}
+
+.complain-table
+{
+    display: inline-block;
+    vertical-align: baseline;
+    padding-left: 400px;
+    border: none;
+}
+
+/* CSS for hiding the result div initially */
+.hide {
+    display: none;
+}
+
+
+

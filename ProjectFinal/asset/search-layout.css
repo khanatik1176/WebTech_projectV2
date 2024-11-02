@@ -1,0 +1,60 @@
+.Search-div {
+    text-align: center;
+    vertical-align: baseline;
+}
+
+.SearchForm {
+    display: inline-block;
+    padding: 200px;
+    /* background-color: #f0f0f0; */
+    /* border: 1px solid #ccc; */
+    /* border-radius: 5px; */
+}
+
+.Search-Header {
+    color: #333;
+}
+
+#Search {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.result-div {
+    margin-top: 10px;
+}
+
+/* CSS for the search results table */
+.search-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.search-row {
+    background-color: #f2f2f2;
+}
+
+.search-data, .search-header {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Styles for the header cells */
+.search-header {
+    font-weight: bold;
+    background-color: #ddd;
+}
+
+/* CSS for hiding the result div initially */
+.hide {
+    display: none;
+}
+
+
+

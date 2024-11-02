@@ -1,0 +1,60 @@
+/* Reset some default styles for better consistency */
+* {
+    box-sizing: border-box;
+}
+
+/* Apply a background color to the body */
+body {
+    background-color: #fceed1;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Apply styling to the main header */
+h1 {
+    text-align: center;
+    color: #333;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+/* Apply styling to the content paragraphs */
+p.content {
+    margin: 20px;
+    padding: 10px;
+    background-color: #fceed1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Hover effect on the content paragraphs */
+p.content:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #0066cc;
+}
+
+/* Apply styling to the secondary header */
+h2 {
+    text-align: center;
+    color: #0066cc;
+    margin: 20px;
+}
+
+/* Apply different styles to the location paragraph */
+#location {
+    margin: 20px;
+    padding: 10px;
+    background-color: #fceed1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover effect on the location paragraph */
+#location:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
